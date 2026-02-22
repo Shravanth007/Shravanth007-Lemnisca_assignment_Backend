@@ -50,8 +50,12 @@ app.add_middleware(
 @app.on_event("startup")
 async def startup_event():
     if not index_exists():
-        print("🔧 BM25 index not found — building now …")
-        build_index()
+        print("🔧 BM25 index not found — attempting to build …")
+        try:
+            build_index()
+        except Exception as e:
+            print(f"⚠️ Could not build index (read-only FS?): {e}")
+            print("   Make sure the pre-built index is committed to the repo.")
     else:
         print("⚡ BM25 index loaded from disk.")
 

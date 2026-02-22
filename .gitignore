@@ -1,6 +1,5 @@
 .venv/
 __pycache__/
 *.pyc
-rag/index_store/
 logs/router_logs.jsonl
 .env

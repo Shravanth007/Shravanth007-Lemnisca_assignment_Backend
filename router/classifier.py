@@ -89,17 +89,20 @@ def log_request(
     latency_ms: int,
 ) -> None:
     
-    os.makedirs(LOG_DIR, exist_ok=True)
-    entry: Dict[str, Any] = {
-        "query": query,
-        "classification": classification,
-        "model_used": model_used,
-        "tokens_input": tokens_input,
-        "tokens_output": tokens_output,
-        "latency_ms": latency_ms,
-    }
-    with open(ROUTER_LOG_FILE, "a", encoding="utf-8") as f:
-        f.write(json.dumps(entry, ensure_ascii=False) + "\n")
+    try:
+        os.makedirs(LOG_DIR, exist_ok=True)
+        entry: Dict[str, Any] = {
+            "query": query,
+            "classification": classification,
+            "model_used": model_used,
+            "tokens_input": tokens_input,
+            "tokens_output": tokens_output,
+            "latency_ms": latency_ms,
+        }
+        with open(ROUTER_LOG_FILE, "a", encoding="utf-8") as f:
+            f.write(json.dumps(entry, ensure_ascii=False) + "\n")
+    except OSError:
+        pass
 
 if __name__ == "__main__":
     tests = [
